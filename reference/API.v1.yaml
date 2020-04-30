@@ -1,12 +1,16 @@
 openapi: 3.0.0
 info:
-  title: API
+  title: Ginkgo API Document
   version: '1.0'
   contact:
     name: Hieren
     url: 'https://github.com/hienlh'
     email: hienlh1298@gmail.com
+  description: ''
 servers:
+  - url: 'https://micro-api-core.herokuapp.com/api/v1'
+  - url: 'http://localhost:5001/api/v1'
+  - url: 'http://localhost:5000/api/v1'
   - url: '{protocol}://{host}{port}/api/{version}'
     variables:
       protocol:
@@ -15,14 +19,14 @@ servers:
           - https
         default: https
       host:
-        default: 'micro-api-core.herokuapp.com'
+        default: micro-api-core.herokuapp.com
       port:
-        default: ':5000'
+        default: ''
+        description: 'Example :5000'
       version:
         enum:
           - v1
-        default: 'v1'
-      
+        default: v1
 paths:
   /users/authenticate:
     post:
@@ -31,29 +35,492 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                Email:
-                  type: string
-                  default: test@gingko.com
-                  format: email
-                Password:
+                password:
                   type: string
                   default: test123
                   format: password
                   minLength: 6
+                email:
+                  type: string
+                  default: test@gingko.com
+                  format: email
               required:
-                - Email
-                - Password
+                - email
+                - password
+      security: []
+      tags:
+        - User
+  /users/me/tours:
+    get:
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SimpleTour'
+      operationId: get-users-me-tours
+      security:
+        - Authorization: []
+  /users/me/friends:
+    get:
+      summary: ''
+      operationId: get-users-me-friends
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SimpleUser'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                required:
+                  - errorCode
+                  - message
+                  - data
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - Authorization: []
+      tags:
+        - User
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+  /users/social-provider:
+    post:
+      summary: ''
+      operationId: post-users-social-provider
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - facebook
+                    - google
+                  default: facebook
+                  example: facebook
+                email:
+                  type: string
+                  format: email
+                  description: Optional dùng trong trường hợp đăng kí và social ko cung cấp email.
+              required:
+                - accessToken
+                - type
+      tags:
+        - User
+      security: []
+  /users/me:
+    get:
+      summary: ''
+      operationId: get-users-me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/User'
+                required:
+                  - errorCode
+                  - message
+                  - data
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - Authorization: []
+      tags:
+        - User
+  /users/register:
+    post:
+      summary: ''
+      operationId: post-users-register
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phoneNumber:
+                  type: string
+                password:
+                  type: string
+      tags:
+        - User
+      security: []
+  '/users/{id}':
+    get:
+      summary: Get user by id
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: number
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/User'
+                required:
+                  - errorCode
+                  - message
+                  - data
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: get-users-id
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: user id
 components:
-  schemas: {}
+  schemas:
+    Pagination:
+      title: Pagination
+      type: object
+      properties:
+        totalPage:
+          type: integer
+        totalElement:
+          type: integer
+        currentPage:
+          type: integer
+        pageSize:
+          type: integer
+    SimpleUser:
+      title: SimpleUser
+      type: object
+      x-tags:
+        - User
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        avatar:
+          type: string
+          format: uri
+        job:
+          type: string
+      required:
+        - id
+        - name
+        - avatar
+    ErrorResponse:
+      title: Error
+      type: object
+      properties:
+        errorCode:
+          default: 1
+          type: integer
+        message:
+          type: string
+          default: Error message
+      required:
+        - errorCode
+        - message
+    SocialProvider:
+      title: SocialProvider
+      type: object
+      x-examples: {}
+      x-tags:
+        - User
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          default: Tester
+        email:
+          type: string
+          format: email
+          default: test@ginkgo.com
+          example: test@ginkgo.com
+        avatar:
+          type: string
+          example: facebook
+          format: uri
+        type:
+          type: string
+          enum:
+            - facebook
+            - google
+          example: facebook
+          default: facebook
+      required:
+        - id
+        - type
+    User:
+      title: User
+      type: object
+      description: ''
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        email:
+          type: string
+          default: test@ginkgo.com
+          format: email
+          example: test@ginkgo.com
+        phoneNumber:
+          type: string
+          example: '+8498765432'
+        address:
+          type: string
+        avatar:
+          type: string
+          format: uri
+        slogan:
+          type: string
+        bio:
+          type: string
+        job:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - femail
+            - other
+        birthday:
+          type: string
+          format: date-time
+        socialProviders:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/SocialProvider'
+      required:
+        - id
+        - email
+        - phoneNumber
+      x-tags:
+        - User
+    AuthResponse:
+      title: AuthResponse
+      type: object
+      properties:
+        errorCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: string
+          example: Token
+      required:
+        - errorCode
+        - message
+        - data
+    Tour:
+      title: Tour
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        startDay:
+          type: string
+        endDay:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleUser'
+        maxMember:
+          type: integer
+      required:
+        - id
+        - startDay
+        - endDay
+    SimpleTour:
+      title: SimpleTour
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        startDay:
+          type: string
+          format: date-time
+        endDay:
+          type: string
+          format: date-time
+        totalMember:
+          type: integer
+        host:
+          $ref: '#/components/schemas/SimpleUser'
+      required:
+        - id
+        - name
+        - startDay
+        - endDay
+        - totalMember
+        - host
+    Post:
+      title: Post
+      type: object
+      properties:
+        id:
+          type: integer
+    Comment:
+      title: Comment
+      type: object
+      properties:
+        id:
+          type: integer
+    Feedback:
+      title: Feedback
+      type: object
+      properties:
+        id:
+          type: integer
+    Place:
+      title: Place
+      type: object
+      properties:
+        id:
+          type: integer
+    TourInfo:
+      title: TourInfo
+      type: object
+      properties:
+        id:
+          type: string
+        '':
+          type: string
+    TourPoint:
+      title: TourPoint
+      type: object
+      properties:
+        id:
+          type: string
+        '':
+          type: string
+    DaySesson:
+      type: string
+      title: DaySesson
+      enum:
+        - day
+        - night
+      x-examples: {}
   securitySchemes:
     Authorization:
-      name: API Key
+      name: Authorization
       type: apiKey
       in: header
 security:
