@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: API
+  version: '1.0'
+  contact:
+    name: Hieren
+    url: 'https://github.com/hienlh'
+    email: hienlh1298@gmail.com
+servers:
+  - url: '{protocol}://{host}{port}/api/{version}'
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+      host:
+        default: 'micro-api-core.herokuapp.com'
+      port:
+        default: ':5000'
+      version:
+        enum:
+          - v1
+        default: 'v1'
+      
+paths:
+  /users/authenticate:
+    post:
+      summary: ''
+      operationId: post-users-authenticate
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Email:
+                  type: string
+                  default: test@gingko.com
+                  format: email
+                Password:
+                  type: string
+                  default: test123
+                  format: password
+                  minLength: 6
+              required:
+                - Email
+                - Password
+components:
+  schemas: {}
+  securitySchemes:
+    Authorization:
+      name: API Key
+      type: apiKey
+      in: header
+security:
+  - Authorization: []
