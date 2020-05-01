@@ -426,6 +426,7 @@ components:
     Tour:
       title: Tour
       type: object
+      description: ''
       properties:
         id:
           type: integer
@@ -445,6 +446,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Timeline'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDetail'
       required:
         - id
         - startDay
@@ -467,6 +472,10 @@ components:
           type: integer
         host:
           $ref: '#/components/schemas/SimpleUser'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDetail'
       required:
         - id
         - name
@@ -537,6 +546,10 @@ components:
           type: array
           items:
             type: string
+        startPlace:
+          $ref: '#/components/schemas/Place'
+        destinatePlage:
+          $ref: '#/components/schemas/Place'
     Timeline:
       title: Timeline
       type: object
@@ -558,6 +571,40 @@ components:
         - id
         - places
         - day
+    Service:
+      title: Service
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          description: Tên detail
+          example: Khách sạn 3 sao
+        image:
+          type: string
+      required:
+        - id
+        - name
+        - image
+    ServiceDetail:
+      title: ServiceDetail
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        service:
+          $ref: '#/components/schemas/Service'
+        detail:
+          type: string
+          description: Chi tiết của detail
+          example: Khách sạn Rạng Đông
+      required:
+        - id
+        - service
+        - detail
   securitySchemes:
     Authorization:
       name: Authorization
