@@ -349,7 +349,6 @@ components:
           example: test@ginkgo.com
         avatar:
           type: string
-          example: facebook
           format: uri
         type:
           type: string
@@ -442,6 +441,10 @@ components:
             $ref: '#/components/schemas/SimpleUser'
         maxMember:
           type: integer
+        timelines:
+          type: array
+          items:
+            $ref: '#/components/schemas/Timeline'
       required:
         - id
         - startDay
@@ -477,12 +480,39 @@ components:
       properties:
         id:
           type: integer
+        author:
+          $ref: '#/components/schemas/SimpleUser'
+        content:
+          type: string
+          description: Nội dung bài viết
+        images:
+          type: array
+          description: Danh sách hình ảnh nếu có
+          items:
+            type: string
+        totalLike:
+          type: integer
+          description: Tổng lượt thích
+        totalComment:
+          type: integer
+          description: Tổng lượt bình luận
+        featuredComment:
+          $ref: '#/components/schemas/Comment'
+      required:
+        - id
+        - author
+        - content
     Comment:
       title: Comment
       type: object
       properties:
         id:
           type: integer
+        author:
+          $ref: '#/components/schemas/SimpleUser'
+        content:
+          type: string
+          description: Nội dung bình luận
     Feedback:
       title: Feedback
       type: object
@@ -501,23 +531,33 @@ components:
       properties:
         id:
           type: string
-        '':
+        name:
           type: string
-    TourPoint:
-      title: TourPoint
+        images:
+          type: array
+          items:
+            type: string
+    Timeline:
+      title: Timeline
       type: object
       properties:
         id:
+          type: integer
+        places:
+          type: array
+          description: Danh sách địa điểm
+          items:
+            $ref: '#/components/schemas/Place'
+        day:
           type: string
-        '':
+          format: date-time
+          description: Ngày của timeline
+        description:
           type: string
-    DaySesson:
-      type: string
-      title: DaySesson
-      enum:
+      required:
+        - id
+        - places
         - day
-        - night
-      x-examples: {}
   securitySchemes:
     Authorization:
       name: Authorization
