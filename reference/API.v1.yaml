@@ -51,18 +51,18 @@ paths:
             schema:
               type: object
               properties:
-                password:
+                Password:
                   type: string
                   default: test123
                   format: password
                   minLength: 6
-                email:
+                Email:
                   type: string
                   default: test@gingko.com
                   format: email
               required:
-                - email
-                - password
+                - Password
+                - Email
       security: []
       tags:
         - User
@@ -78,11 +78,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  errorCode:
+                  ErrorCode:
                     type: number
-                  message:
+                  Message:
                     type: string
-                  data:
+                  Data:
                     type: array
                     items:
                       $ref: '#/components/schemas/SimpleTour'
@@ -101,20 +101,20 @@ paths:
               schema:
                 type: object
                 properties:
-                  errorCode:
+                  ErrorCode:
                     type: number
-                  message:
+                  Message:
                     type: string
-                  data:
+                  Data:
                     type: array
                     items:
                       $ref: '#/components/schemas/SimpleUser'
-                  pagination:
+                  Pagination:
                     $ref: '#/components/schemas/Pagination'
                 required:
-                  - errorCode
-                  - message
-                  - data
+                  - ErrorCode
+                  - Message
+                  - Data
             application/xml:
               schema:
                 type: object
@@ -163,22 +163,22 @@ paths:
             schema:
               type: object
               properties:
-                accessToken:
+                AccessToken:
                   type: string
-                type:
+                Type:
                   type: string
                   enum:
                     - facebook
                     - google
                   default: facebook
                   example: facebook
-                email:
+                Email:
                   type: string
                   format: email
                   description: Optional dùng trong trường hợp đăng kí và social ko cung cấp email.
               required:
-                - accessToken
-                - type
+                - AccessToken
+                - Type
       tags:
         - User
       security: []
@@ -194,16 +194,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  errorCode:
+                  ErrorCode:
                     type: number
-                  message:
+                  Message:
                     type: string
-                  data:
+                  Data:
                     $ref: '#/components/schemas/User'
                 required:
-                  - errorCode
-                  - message
-                  - data
+                  - ErrorCode
+                  - Message
+                  - Data
         '500':
           description: Internal Server Error
           content:
@@ -237,13 +237,13 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                Name:
                   type: string
-                email:
+                Email:
                   type: string
-                phoneNumber:
+                PhoneNumber:
                   type: string
-                password:
+                Password:
                   type: string
       tags:
         - User
@@ -260,16 +260,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  errorCode:
+                  ErrorCode:
                     type: number
-                  message:
+                  Message:
                     type: string
-                  data:
+                  Data:
                     $ref: '#/components/schemas/User'
                 required:
-                  - errorCode
-                  - message
-                  - data
+                  - ErrorCode
+                  - Message
+                  - Data
         '500':
           description: Internal Server Error
           content:
@@ -290,13 +290,13 @@ components:
       title: Pagination
       type: object
       properties:
-        totalPage:
+        TotalPage:
           type: integer
-        totalElement:
+        TotalElement:
           type: integer
-        currentPage:
+        CurrentPage:
           type: integer
-        pageSize:
+        PageSize:
           type: integer
     SimpleUser:
       title: SimpleUser
@@ -304,32 +304,32 @@ components:
       x-tags:
         - User
       properties:
-        id:
+        Id:
           type: integer
-        name:
+        Name:
           type: string
-        avatar:
+        Avatar:
           type: string
           format: uri
-        job:
+        Job:
           type: string
       required:
-        - id
-        - name
-        - avatar
+        - Id
+        - Name
+        - Avatar
     ErrorResponse:
       title: Error
       type: object
       properties:
-        errorCode:
+        ErrorCode:
           default: 1
           type: integer
-        message:
+        Message:
           type: string
           default: Error message
       required:
-        - errorCode
-        - message
+        - ErrorCode
+        - Message
     SocialProvider:
       title: SocialProvider
       type: object
@@ -337,20 +337,20 @@ components:
       x-tags:
         - User
       properties:
-        id:
+        Id:
           type: string
-        name:
+        Name:
           type: string
           default: Tester
-        email:
+        Email:
           type: string
           format: email
           default: test@ginkgo.com
           example: test@ginkgo.com
-        avatar:
+        Avatar:
           type: string
           format: uri
-        type:
+        Type:
           type: string
           enum:
             - facebook
@@ -358,253 +358,264 @@ components:
           example: facebook
           default: facebook
       required:
-        - id
-        - type
+        - Id
+        - Type
     User:
       title: User
       type: object
       description: ''
+      x-tags:
+        - User
       properties:
-        id:
+        Id:
           type: number
-        name:
+        Name:
           type: string
-        email:
+        Email:
           type: string
           default: test@ginkgo.com
           format: email
           example: test@ginkgo.com
-        phoneNumber:
+        PhoneNumber:
           type: string
           example: '+8498765432'
-        address:
+        Address:
           type: string
-        avatar:
+        Avatar:
           type: string
           format: uri
-        slogan:
+        Slogan:
           type: string
-        bio:
+        Bio:
           type: string
-        job:
+        Job:
           type: string
-        gender:
+        Gender:
           type: string
           enum:
             - male
             - femail
             - other
-        birthday:
+        Birthday:
           type: string
           format: date-time
-        socialProviders:
+        SocialProviders:
           type: array
           uniqueItems: true
           items:
             $ref: '#/components/schemas/SocialProvider'
+        Role:
+          type: string
+          enum:
+            - admin
+            - creator
+            - user
       required:
-        - id
-        - email
-        - phoneNumber
-      x-tags:
-        - User
+        - Id
+        - Email
+        - PhoneNumber
     AuthResponse:
       title: AuthResponse
       type: object
       properties:
-        errorCode:
+        ErrorCode:
           type: integer
-        message:
+        Message:
           type: string
-        data:
-          type: string
+        Data:
+          type: array
           example: Token
+          minItems: 1
+          maxItems: 1
+          items:
+            type: string
+            example: token
       required:
-        - errorCode
-        - message
-        - data
+        - ErrorCode
+        - Message
+        - Data
     Tour:
       title: Tour
       type: object
       description: ''
       properties:
-        id:
+        Id:
           type: integer
-        name:
+        Name:
           type: string
-        startDay:
+        StartDay:
           type: string
-        endDay:
+        EndDay:
           type: string
-        members:
+        Members:
           type: array
           items:
             $ref: '#/components/schemas/SimpleUser'
-        maxMember:
+        MaxMember:
           type: integer
-        timelines:
+        Timelines:
           type: array
           items:
             $ref: '#/components/schemas/Timeline'
-        services:
+        Services:
           type: array
           items:
             $ref: '#/components/schemas/ServiceDetail'
       required:
-        - id
-        - startDay
-        - endDay
+        - Id
+        - StartDay
+        - EndDay
     SimpleTour:
       title: SimpleTour
       type: object
       properties:
-        id:
+        Id:
           type: integer
-        name:
+        Name:
           type: string
-        startDay:
+        StartDay:
           type: string
           format: date-time
-        endDay:
+        EndDay:
           type: string
           format: date-time
-        totalMember:
+        TotalMember:
           type: integer
-        host:
+        Host:
           $ref: '#/components/schemas/SimpleUser'
-        services:
+        Services:
           type: array
           items:
             $ref: '#/components/schemas/ServiceDetail'
       required:
-        - id
-        - name
-        - startDay
-        - endDay
-        - totalMember
-        - host
+        - Id
+        - Name
+        - StartDay
+        - EndDay
+        - TotalMember
+        - Host
     Post:
       title: Post
       type: object
       properties:
-        id:
+        Id:
           type: integer
-        author:
+        Author:
           $ref: '#/components/schemas/SimpleUser'
-        content:
+        Content:
           type: string
           description: Nội dung bài viết
-        images:
+        Images:
           type: array
           description: Danh sách hình ảnh nếu có
           items:
             type: string
-        totalLike:
+        TotalLike:
           type: integer
           description: Tổng lượt thích
-        totalComment:
+        TotalComment:
           type: integer
           description: Tổng lượt bình luận
-        featuredComment:
+        FeaturedComment:
           $ref: '#/components/schemas/Comment'
       required:
-        - id
-        - author
-        - content
+        - Id
+        - Author
+        - Content
     Comment:
       title: Comment
       type: object
       properties:
-        id:
+        Id:
           type: integer
-        author:
+        Author:
           $ref: '#/components/schemas/SimpleUser'
-        content:
+        Content:
           type: string
           description: Nội dung bình luận
     Feedback:
       title: Feedback
       type: object
       properties:
-        id:
+        Id:
           type: integer
     Place:
       title: Place
       type: object
       properties:
-        id:
+        Id:
           type: integer
     TourInfo:
       title: TourInfo
       type: object
       properties:
-        id:
+        Id:
           type: string
-        name:
+        Name:
           type: string
-        images:
+        Images:
           type: array
           items:
             type: string
-        startPlace:
+        StartPlace:
           $ref: '#/components/schemas/Place'
-        destinatePlage:
+        DestinatePlace:
           $ref: '#/components/schemas/Place'
     Timeline:
       title: Timeline
       type: object
       properties:
-        id:
+        Id:
           type: integer
-        places:
+        Places:
           type: array
           description: Danh sách địa điểm
           items:
             $ref: '#/components/schemas/Place'
-        day:
+        Day:
           type: string
           format: date-time
           description: Ngày của timeline
-        description:
+        Description:
           type: string
       required:
-        - id
-        - places
-        - day
+        - Id
+        - Places
+        - Day
     Service:
       title: Service
       type: object
       properties:
-        id:
+        Id:
           type: number
           example: 1
-        name:
+        Name:
           type: string
           description: Tên detail
           example: Khách sạn 3 sao
-        image:
+        Image:
           type: string
       required:
-        - id
-        - name
-        - image
+        - Id
+        - Name
+        - Image
     ServiceDetail:
       title: ServiceDetail
       type: object
       properties:
-        id:
+        Id:
           type: number
           example: 1
-        service:
+        Service:
           $ref: '#/components/schemas/Service'
-        detail:
+        Detail:
           type: string
           description: Chi tiết của detail
           example: Khách sạn Rạng Đông
       required:
-        - id
-        - service
-        - detail
+        - Id
+        - Service
+        - Detail
   securitySchemes:
     Authorization:
       name: Authorization
