@@ -30,7 +30,7 @@ servers:
 paths:
   /users/authenticate:
     post:
-      summary: ''
+      summary: 'Error'
       operationId: post-users-authenticate
       responses:
         '200':
@@ -55,11 +55,13 @@ paths:
                   type: string
                   default: test123
                   format: password
-                  minLength: 6
+                  minLength: 4
+                  example: test
                 Email:
                   type: string
                   default: test@gingko.com
                   format: email
+                  example: test@gmail.com
               required:
                 - Password
                 - Email
@@ -68,6 +70,7 @@ paths:
         - User
   /users/me/tours:
     get:
+      summary: 'Done, no data'
       tags:
         - User
       responses:
@@ -88,10 +91,10 @@ paths:
                       $ref: '#/components/schemas/SimpleTour'
       operationId: get-users-me-tours
       security:
-        - Authorization: []
+        - bearerAuth: []
   /users/me/friends:
     get:
-      summary: ''
+      summary: 'Done, no data'
       operationId: get-users-me-friends
       responses:
         '200':
@@ -127,7 +130,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - Authorization: []
+        - bearerAuth: []
       tags:
         - User
       parameters:
@@ -142,7 +145,7 @@ paths:
           name: pageSize
   /users/social-provider:
     post:
-      summary: ''
+      summary: Done
       operationId: post-users-social-provider
       responses:
         '200':
@@ -165,6 +168,7 @@ paths:
               properties:
                 AccessToken:
                   type: string
+                  example: EAAIqXjkTrtsBANLqXmvoewZB9qwW3SbZCb9EtPqOGVnIUQXZAs3iDaaUYVenCFe90GzjPSI456tBEQW3sUqJEZCcAzyf4lu7kQ36OmFZA83KdtpZARXKb3sFNInHq7wDjr5sr0NvwoO0JXmJnYjMa4ZAqtA3EF3iCZATRUI3C3V9DZBDKm8LpBOZB0RUr1vzSGOcCbgIKlKc3m9r8TOZCdip4GR2PgrCVtbrHwxw78UuceKYUKDLpHNcZByj
                 Type:
                   type: string
                   enum:
@@ -175,16 +179,39 @@ paths:
                 Email:
                   type: string
                   format: email
-                  description: Optional dùng trong trường hợp đăng kí và social ko cung cấp email.
+                  example: test@ginkgo.com
               required:
                 - AccessToken
                 - Type
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Email:
+                  type: string
+                  format: email
+                  example: test@ginkgo.com
+                Type:
+                  type: string
+                  enum:
+                    - facebook
+                    - google
+                  default: facebook
+                  example: facebook
+                AccessToken:
+                  type: string
+                  example: EAAIqXjkTrtsBANLqXmvoewZB9qwW3SbZCb9EtPqOGVnIUQXZAs3iDaaUYVenCFe90GzjPSI456tBEQW3sUqJEZCcAzyf4lu7kQ36OmFZA83KdtpZARXKb3sFNInHq7wDjr5sr0NvwoO0JXmJnYjMa4ZAqtA3EF3iCZATRUI3C3V9DZBDKm8LpBOZB0RUr1vzSGOcCbgIKlKc3m9r8TOZCdip4GR2PgrCVtbrHwxw78UuceKYUKDLpHNcZByj
+              required:
+                - AccessToken
+                - Type
+        description: ''
       tags:
         - User
       security: []
+      description: 'Phía client gửi accress token cho server, server xử lý nếu chưa có tài khoản thì tạo còn có rồi thì update thông tin trả về token login cho client. Trường hợp ko social provider không cung cấp email thì trả về lỗi thiếu email và client sẽ mở form cho user nhập thêm email và gửi lại với thêm trường email.'
   /users/me:
     get:
-      summary: ''
+      summary: 'Thiếu socical provider'
       operationId: get-users-me
       responses:
         '200':
@@ -199,7 +226,9 @@ paths:
                   Message:
                     type: string
                   Data:
-                    $ref: '#/components/schemas/User'
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
                 required:
                   - ErrorCode
                   - Message
@@ -211,12 +240,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - Authorization: []
+        - bearerAuth: []
       tags:
         - User
   /users/register:
     post:
-      summary: ''
+      summary: Done
       operationId: post-users-register
       responses:
         '200':
@@ -239,19 +268,24 @@ paths:
               properties:
                 Name:
                   type: string
+                  example: Ginkgo
                 Email:
                   type: string
+                  example: test@ginkgo.com
                 PhoneNumber:
                   type: string
+                  example: '+84987654321'
                 Password:
                   type: string
+                  example: test
       tags:
         - User
       security: []
   '/users/{id}':
     get:
-      summary: Get user by id
-      tags: []
+      summary: Done
+      tags:
+        - User
       responses:
         '200':
           description: OK
@@ -265,7 +299,9 @@ paths:
                   Message:
                     type: string
                   Data:
-                    $ref: '#/components/schemas/User'
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SimpleUser'
                 required:
                   - ErrorCode
                   - Message
@@ -277,13 +313,466 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: get-users-id
+      description: ''
     parameters:
       - schema:
           type: integer
         name: id
         in: path
         required: true
-        description: user id
+  '/admin/users/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Error 403
+      tags:
+        - Admin
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+      operationId: get-admin-users-id
+      description: Lấy thông tin 1 user
+    put:
+      summary: Error 403
+      operationId: put-admin-users-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+      description: Sửa thông tin user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UserToPut'
+                - type: object
+                  properties:
+                    Role:
+                      type: string
+                      enum:
+                        - admin
+                        - creator
+                        - user
+                      example: creator
+      tags:
+        - Admin
+        - User
+    delete:
+      summary: Error 403
+      operationId: delete-admin-users-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: Xoá User
+      tags:
+        - Admin
+        - User
+  /admin/users:
+    get:
+      summary: Error 403
+      tags:
+        - Admin
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+      operationId: get-admin-users
+      description: Get toàn bộ user
+      parameters:
+        - schema:
+            type: integer
+            example: 1
+          in: query
+          name: page
+          description: Số thứ tự trang
+        - schema:
+            type: integer
+            example: 10
+          in: query
+          name: pageSize
+          description: Số phần tử trong 1 trang
+    post:
+      summary: Error 403
+      operationId: post-admin-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+      description: Tạo User
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserToPost'
+        description: ''
+      tags:
+        - Admin
+        - User
+  '/tour-infos/{id}/tours':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - Tour
+        - TourInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SimpleTour'
+                  Pagination:
+                    $ref: '#/components/schemas/Pagination'
+      operationId: get-tour-infos-id
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+      security: []
+  /tour-infos:
+    get:
+      summary: ''
+      tags:
+        - TourInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TourInfo'
+      parameters:
+        - schema:
+            type: integer
+            default: 1
+          in: query
+          name: page
+        - schema:
+            type: integer
+            default: '10'
+          in: query
+          name: pageSize
+      description: Get danh sách tour info.
+      security: []
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-tour-infos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TourInfo'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourInfoToPost'
+        description: Api tạo tour info cho creator.
+  /places:
+    get:
+      summary: ''
+      tags:
+        - Place
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Pagination:
+                        $ref: '#/components/schemas/Pagination'
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Place'
+                    required:
+                      - Data
+                      - Pagination
+      operationId: get-places
+      description: Lấy danh sách các địa điểm du lịch.
+      security: []
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+  '/tour-infos/{id}':
+    get:
+      summary: ''
+      tags:
+        - TourInfo
+      operationId: get-tours-info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TourInfo'
+      parameters: []
+      description: Lấy thông tin chi tiêt của một tour info.
+      security: []
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+  '/places/{id}':
+    get:
+      summary: ''
+      tags:
+        - Place
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Place'
+                    required:
+                      - Data
+      description: Lấy thông tin chi tiết của địa điểm du lịch
+      security: []
+      parameters: []
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+  /admin/tour-infos:
+    get:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Pagination:
+                        $ref: '#/components/schemas/Pagination'
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TourInfo'
+      operationId: get-admin-tour-infos
+      description: Get danh sách tour cho admin
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+    post:
+      summary: ''
+      operationId: post-admin-tour-infos
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourInfoToPost'
+  '/admin/tour-infos/{id}':
+    get:
+      tags:
+        - TourInfo
+        - Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TourInfo'
+      description: Get Tour info detail cho admin
+      parameters: []
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-admin-tour-infos-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TourInfo'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourInfoToPost'
+      tags:
+        - TourInfo
+        - Admin
+    delete:
+      summary: ''
+      operationId: delete-admin-tour-infos-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - TourInfo
+        - Admin
 components:
   schemas:
     Pagination:
@@ -316,7 +805,6 @@ components:
       required:
         - Id
         - Name
-        - Avatar
     ErrorResponse:
       title: Error
       type: object
@@ -339,6 +827,7 @@ components:
       properties:
         Id:
           type: string
+          format: uuid
         Name:
           type: string
           default: Tester
@@ -367,8 +856,6 @@ components:
       x-tags:
         - User
       properties:
-        Id:
-          type: number
         Name:
           type: string
         Email:
@@ -410,6 +897,8 @@ components:
             - admin
             - creator
             - user
+        Id:
+          type: integer
       required:
         - Id
         - Email
@@ -424,12 +913,15 @@ components:
           type: string
         Data:
           type: array
-          example: Token
           minItems: 1
           maxItems: 1
           items:
-            type: string
-            example: token
+            type: object
+            properties:
+              Id:
+                type: integer
+              Token:
+                type: string
       required:
         - ErrorCode
         - Message
@@ -461,6 +953,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ServiceDetail'
+        TourInfo:
+          $ref: '#/components/schemas/TourInfo'
       required:
         - Id
         - StartDay
@@ -517,13 +1011,18 @@ components:
           type: integer
           description: Tổng lượt bình luận
         FeaturedComment:
-          $ref: '#/components/schemas/Comment'
+          $ref: '#/components/schemas/PostComment'
+        CreateAt:
+          type: string
+          format: date-time
+        Rating:
+          type: number
       required:
         - Id
         - Author
         - Content
-    Comment:
-      title: Comment
+    PostComment:
+      title: PostComment
       type: object
       properties:
         Id:
@@ -533,18 +1032,20 @@ components:
         Content:
           type: string
           description: Nội dung bình luận
-    Feedback:
-      title: Feedback
-      type: object
-      properties:
-        Id:
-          type: integer
     Place:
       title: Place
       type: object
       properties:
         Id:
           type: integer
+        Name:
+          type: string
+        Images:
+          type: array
+          items:
+            type: string
+        Description:
+          type: string
     TourInfo:
       title: TourInfo
       type: object
@@ -561,6 +1062,15 @@ components:
           $ref: '#/components/schemas/Place'
         DestinatePlace:
           $ref: '#/components/schemas/Place'
+        Rating:
+          type: number
+      required:
+        - Id
+        - Name
+        - Images
+        - StartPlace
+        - DestinatePlace
+        - Rating
     Timeline:
       title: Timeline
       type: object
@@ -616,10 +1126,200 @@ components:
         - Id
         - Service
         - Detail
+    Feedback:
+      title: Feedback
+      type: object
+      properties:
+        Author:
+          $ref: '#/components/schemas/SimpleUser'
+        TourInfo:
+          $ref: '#/components/schemas/TourInfo'
+        Rating:
+          type: integer
+        CreateAt:
+          type: string
+          format: date-time
+        Content:
+          type: string
+        TotalLike:
+          type: integer
+        TotalComment:
+          type: integer
+      required:
+        - Author
+        - TourInfo
+        - Rating
+        - CreateAt
+    FeedbackComment:
+      title: FeedbackComment
+      type: object
+      properties:
+        Id:
+          type: integer
+        FeedbackAuthorId:
+          type: integer
+        TourInfoId:
+          type: integer
+        CreateAt:
+          type: string
+          format: date-time
+        Content:
+          type: string
+        Author:
+          $ref: '#/components/schemas/SimpleUser'
+      required:
+        - Id
+        - FeedbackAuthorId
+        - TourInfoId
+        - CreateAt
+        - Content
+        - Author
+    FeedbackLike:
+      title: FeedbackLike
+      type: object
+      properties:
+        Author:
+          $ref: '#/components/schemas/SimpleUser'
+        FeedbackAuthorId:
+          type: integer
+        TourInfoId:
+          type: integer
+        CreateAt:
+          type: string
+          format: date-time
+      required:
+        - Author
+        - FeedbackAuthorId
+        - TourInfoId
+        - CreateAt
+    UserToPut:
+      title: UserToPut
+      type: object
+      properties:
+        password:
+          type: string
+          example: new-password
+        phoneNumber:
+          type: string
+          example: '+84123456789'
+        address:
+          type: string
+          example: Địa chỉ mới
+        avatar:
+          type: string
+          format: uri
+        slogan:
+          type: string
+          example: Slogan mới
+        bio:
+          type: string
+          example: Bio mới
+        job:
+          type: string
+          example: Job mới
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
+          example: male
+        birthday:
+          type: string
+          format: date-time
+    UserToPost:
+      title: UserToPost
+      type: object
+      description: ''
+      properties:
+        Email:
+          type: string
+          format: email
+          example: test@ginkgo.com
+        Password:
+          type: string
+          format: password
+          example: test
+        PhoneNumber:
+          type: string
+          example: '+84987654321'
+        Address:
+          type: string
+          example: 78 - Đường Quang Trung - Quận 15 - Thành phố Hồ Chí Minh
+        Avatar:
+          type: string
+          format: uri
+        Slogan:
+          type: string
+          example: Nothing
+        Bio:
+          type: string
+          example: Nothing
+        Job:
+          type: string
+          example: Developer
+        Gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
+          example: male
+        Birthday:
+          type: string
+          format: date-time
+        Role:
+          type: string
+          enum:
+            - admin
+            - creator
+            - user
+          example: user
+      required:
+        - Email
+        - Password
+    TourInfoToPost:
+      title: TourInfoToPost
+      type: object
+      properties:
+        DestinatePlaceId:
+          type: integer
+        StartPlaceId:
+          type: integer
+        Images:
+          type: array
+          items:
+            type: string
+        Name:
+          type: string
+          example: Tour name
+      required:
+        - Name
+        - Images
+        - StartPlaceId
+        - DestinatePlaceId
+    TourInfoToPut:
+      title: TourInfoToPut
+      type: object
+      properties:
+        Images:
+          type: array
+          items:
+            type: string
+        Name:
+          type: string
+          example: Tour name
+      required:
+        - Name
+        - Images
   securitySchemes:
-    Authorization:
-      name: Authorization
-      type: apiKey
-      in: header
+    # Authorization:
+    #   name: Authorization
+    #   type: apiKey
+    #   in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 security:
-  - Authorization: []
+  - bearerAuth: []
