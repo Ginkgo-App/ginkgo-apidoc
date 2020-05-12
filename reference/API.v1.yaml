@@ -30,7 +30,7 @@ servers:
 paths:
   /users/authenticate:
     post:
-      summary: 'Error'
+      summary: Done
       operationId: post-users-authenticate
       responses:
         '200':
@@ -211,7 +211,7 @@ paths:
       description: 'Phía client gửi accress token cho server, server xử lý nếu chưa có tài khoản thì tạo còn có rồi thì update thông tin trả về token login cho client. Trường hợp ko social provider không cung cấp email thì trả về lỗi thiếu email và client sẽ mở form cho user nhập thêm email và gửi lại với thêm trường email.'
   /users/me:
     get:
-      summary: 'Thiếu socical provider'
+      summary: Done, thiếu social provider
       operationId: get-users-me
       responses:
         '200':
@@ -328,7 +328,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Error 403
+      summary: Done
       tags:
         - Admin
         - User
@@ -351,7 +351,7 @@ paths:
       operationId: get-admin-users-id
       description: Lấy thông tin 1 user
     put:
-      summary: Error 403
+      summary: Done
       operationId: put-admin-users-id
       responses:
         '200':
@@ -389,7 +389,7 @@ paths:
         - Admin
         - User
     delete:
-      summary: Error 403
+      summary: Done
       operationId: delete-admin-users-id
       responses:
         '200':
@@ -404,7 +404,7 @@ paths:
         - User
   /admin/users:
     get:
-      summary: Error 403
+      summary: Done
       tags:
         - Admin
         - User
@@ -442,7 +442,7 @@ paths:
           name: pageSize
           description: Số phần tử trong 1 trang
     post:
-      summary: Error 403
+      summary: Done
       operationId: post-admin-users
       responses:
         '200':
