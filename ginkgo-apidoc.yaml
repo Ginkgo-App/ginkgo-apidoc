@@ -79,19 +79,67 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  ErrorCode:
-                    type: number
-                  Message:
-                    type: string
-                  Data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/SimpleTour'
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SimpleTour'
       operationId: get-users-me-tours
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
+  /users/{id}/tours:
+    get:
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SimpleTour'
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          in: path
+          name: id
+          example: 11
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
   /users/me/friends:
     get:
       summary: 'Done, no data'
@@ -102,22 +150,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  ErrorCode:
-                    type: number
-                  Message:
-                    type: string
-                  Data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/SimpleUser'
-                  Pagination:
-                    $ref: '#/components/schemas/Pagination'
-                required:
-                  - ErrorCode
-                  - Message
-                  - Data
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SimpleUser'
             application/xml:
               schema:
                 type: object
@@ -139,10 +179,61 @@ paths:
           in: query
           name: page
           description: Page Index
+          example: 1
         - schema:
             type: integer
           in: query
           name: pageSize
+          example: 10
+  /users/{id}/friends:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SimpleUser'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          in: path
+          name: id
+          example: 11
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
   /users/social-provider:
     post:
       summary: Done
@@ -825,6 +916,64 @@ paths:
           in: query
           name: pageSize
           example: 10
+  /users/{id}/posts:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: number
+                  Message:
+                    type: string
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+                  Pagination:
+                    $ref: '#/components/schemas/Pagination'
+                required:
+                  - ErrorCode
+                  - Message
+                  - Data
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          in: path
+          name: id
+          example: 10
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
+          
 components:
   schemas:
     Pagination:
@@ -974,6 +1123,20 @@ components:
                 type: integer
               Token:
                 type: string
+      required:
+        - ErrorCode
+        - Message
+        - Data
+    PaginationResponse:
+      title: PaginationResponse
+      type: object
+      properties:
+        ErrorCode:
+          type: integer
+        Message:
+          type: string
+        Pagination:
+          $ref: '#/components/schemas/Pagination'
       required:
         - ErrorCode
         - Message
