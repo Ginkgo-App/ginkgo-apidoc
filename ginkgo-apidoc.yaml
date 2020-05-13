@@ -819,10 +819,12 @@ paths:
           in: query
           name: page
           description: Page Index
+          example: 1
         - schema:
             type: integer
           in: query
           name: pageSize
+          example: 10
 components:
   schemas:
     Pagination:
