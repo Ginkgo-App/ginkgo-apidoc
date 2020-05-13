@@ -1009,6 +1009,9 @@ components:
         IsFriend:
           type: boolean
           example: true
+        IsFriendRequest:
+          type: boolean
+          example: false
       required:
         - Id
         - Name
