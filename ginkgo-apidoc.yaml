@@ -142,7 +142,7 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: 'Done, no data'
+      summary: 'Error (Dung user 2 de test)'
       operationId: get-users-me-friends
       responses:
         '200':
