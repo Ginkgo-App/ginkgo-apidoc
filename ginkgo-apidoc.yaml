@@ -1007,11 +1007,10 @@ components:
           type: string
           example: Coder
         IsFriend:
-          type: boolean
-          example: true
-        IsFriendRequest:
-          type: boolean
-          example: false
+          type: integer
+          enum: [0, 1, 2, 3]
+          example: 0
+          description: 0 là người dưng, 1 là bạn đang gửi yêu cầu kết bạn, 2 là đối phương đang gửi yêu cầu kết bạn, 3 là đã thành bạn bè,
       required:
         - Id
         - Name
