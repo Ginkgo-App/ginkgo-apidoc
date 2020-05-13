@@ -996,13 +996,16 @@ components:
       properties:
         Id:
           type: integer
+          example: 3
         Name:
           type: string
+          example: Hierren Lee
         Avatar:
           type: string
           format: uri
         Job:
           type: string
+          example: Coder
         IsFriend:
           type: boolean
           example: true
