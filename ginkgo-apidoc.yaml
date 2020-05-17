@@ -9,7 +9,7 @@ info:
   description: ''
 servers:
   - url: 'https://micro-api-core.herokuapp.com/api/v1'
-  - url: 'http://localhost:5001/api/v1'
+  - url: 'https://localhost:5001/api/v1'
   - url: 'http://localhost:5000/api/v1'
   - url: '{protocol}://{host}{port}/api/{version}'
     variables:
