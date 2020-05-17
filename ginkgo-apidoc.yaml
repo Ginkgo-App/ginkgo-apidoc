@@ -102,7 +102,7 @@ paths:
           in: query
           name: pageSize
           example: 10
-  /users/{id}/tours:
+  '/users/{id}/tours':
     get:
       tags:
         - User
@@ -142,7 +142,7 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: 'Error (Dung user 2 de test)'
+      summary: Error (Dung user 2 de test)
       operationId: get-users-me-friends
       responses:
         '200':
@@ -185,7 +185,7 @@ paths:
           in: query
           name: pageSize
           example: 10
-  /users/{id}/friends:
+  '/users/{id}/friends':
     get:
       responses:
         '200':
@@ -637,7 +637,8 @@ paths:
           in: query
           name: pageSize
       description: Get danh sách tour info.
-      security: []
+      security:
+        - bearerAuth: []
     parameters: []
     post:
       summary: ''
@@ -720,7 +721,7 @@ paths:
                           $ref: '#/components/schemas/TourInfo'
       parameters: []
       description: Lấy thông tin chi tiêt của một tour info.
-      security: []
+      # security: []
     parameters:
       - schema:
           type: integer
@@ -916,7 +917,7 @@ paths:
           in: query
           name: pageSize
           example: 10
-  /users/{id}/posts:
+  '/users/{id}/posts':
     get:
       responses:
         '200':
@@ -973,7 +974,6 @@ paths:
           in: query
           name: pageSize
           example: 10
-          
 components:
   schemas:
     Pagination:
@@ -1008,9 +1008,13 @@ components:
           example: Coder
         IsFriend:
           type: integer
-          enum: [0, 1, 2, 3]
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
           example: 0
-          description: 0 là người dưng, 1 là bạn đang gửi yêu cầu kết bạn, 2 là đối phương đang gửi yêu cầu kết bạn, 3 là đã thành bạn bè,
+          description: '0 là người dưng, 1 là bạn đang gửi yêu cầu kết bạn, 2 là đối phương đang gửi yêu cầu kết bạn, 3 là đã thành bạn bè,'
       required:
         - Id
         - Name
@@ -1419,7 +1423,7 @@ components:
       title: UserToPut
       type: object
       properties:
-        Name: 
+        Name:
           type: string
           example: Name
         password:
@@ -1458,7 +1462,7 @@ components:
       type: object
       description: ''
       properties:
-        Name: 
+        Name:
           type: string
           example: Name
         Email:
