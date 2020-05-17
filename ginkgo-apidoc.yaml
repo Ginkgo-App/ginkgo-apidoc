@@ -182,7 +182,7 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: Error (Dung user 2 de test)
+      summary: Done
       operationId: get-users-me-friends
       responses:
         '200':
@@ -225,6 +225,39 @@ paths:
           in: query
           name: pageSize
           example: 10
+  /users/me/add-friend/{id}:
+    get:
+      summary: Local
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      parameters:
+        - schema:
+            type: integer
+          in: path
+          name: id
+          required: true
+          description: User to request
+          example: 1
   '/users/{id}/friends':
     get:
       responses:
