@@ -28,18 +28,11 @@ servers:
           - v1
         default: v1
 paths:
-  /3/upload:
+  /upload:
     post:
       servers: 
-        - url: https://api.imgur.com/
+        - url: https://api.imgur.com/3/
       summary: Upload image
-      parameters: 
-        - in: header
-          required: true
-          name: Authorization
-          schema:
-            type: string
-            example: Client-ID eee6fe9fcde03e2
       requestBody:
         content:
           multipart/form-data:
