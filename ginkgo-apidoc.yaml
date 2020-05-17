@@ -33,6 +33,13 @@ paths:
       servers: 
         - url: https://api.imgur.com/
       summary: Upload image
+      parameters: 
+        - in: header
+          required: true
+          name: Authorization
+          schema:
+            type: string
+            example: Client-ID eee6fe9fcde03e2
       requestBody:
         content:
           multipart/form-data:
