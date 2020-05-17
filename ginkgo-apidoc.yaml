@@ -63,9 +63,16 @@ paths:
         - in: header
           required: true
           name: Authorization
+          description: Imgur Authorization
           schema:
             type: string
             example: Client-ID eee6fe9fcde03e2
+        - in: header
+          required: true
+          name: Content-Type
+          schema:
+            type: string
+            example: multipart/form-data
       security: []
   /users/authenticate:
     post:
