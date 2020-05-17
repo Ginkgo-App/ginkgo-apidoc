@@ -52,6 +52,20 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  status: 
+                    type: integer
+                    example: 200
+      parameters: 
+        - in: header
+          required: true
+          name: Authorization
+          schema:
+            type: string
+            example: Client-ID eee6fe9fcde03e2
   /users/authenticate:
     post:
       summary: Done
