@@ -28,6 +28,30 @@ servers:
           - v1
         default: v1
 paths:
+  /3/upload:
+    post:
+      servers: 
+        - url: https://api.imgur.com/
+      summary: Upload image
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                album: 
+                  type: string
+                  example: jVi5Ube
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /users/authenticate:
     post:
       summary: Done
