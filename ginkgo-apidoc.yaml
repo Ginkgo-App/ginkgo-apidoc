@@ -226,7 +226,7 @@ paths:
           name: pageSize
           example: 10
   /users/me/add-friend/{id}:
-    get:
+    post:
       summary: Local
       responses:
         '200':
