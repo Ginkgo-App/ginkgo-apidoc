@@ -66,6 +66,7 @@ paths:
           schema:
             type: string
             example: Client-ID eee6fe9fcde03e2
+      security: []
   /users/authenticate:
     post:
       summary: Done
