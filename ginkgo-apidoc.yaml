@@ -59,14 +59,14 @@ paths:
                   status: 
                     type: integer
                     example: 200
-      parameters: 
-        - in: header
-          required: true
-          name: Authorization
-          description: Imgur Authorization
-          schema:
+      parameters:
+        - schema:
             type: string
-            example: "Client-ID eee6fe9fcde03e2"
+            example: Client-ID eee6fe9fcde03e2
+            default: Client-ID eee6fe9fcde03e2
+          in: header
+          name: Authorization
+          required: true
       security: []
   /users/authenticate:
     post:
