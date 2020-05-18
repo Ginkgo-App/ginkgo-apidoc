@@ -28,6 +28,46 @@ servers:
           - v1
         default: v1
 paths:
+  /upload:
+    post:
+      servers:
+        - url: 'https://api.imgur.com/3/'
+      summary: Upload image
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                album:
+                  type: string
+                  example: jVi5Ube
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  status:
+                    type: integer
+                    example: 200
+      parameters:
+        - schema:
+            type: string
+            example: Client-ID eee6fe9fcde03e2
+            default: Client-ID eee6fe9fcde03e2
+          in: header
+          name: Authorization
+          required: true
+      security: []
   /users/authenticate:
     post:
       summary: Done
@@ -102,9 +142,47 @@ paths:
           in: query
           name: pageSize
           example: 10
+  '/users/{id}/tours':
+    get:
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SimpleTour'
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          in: path
+          name: id
+          example: 11
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
   /users/me/friends:
     get:
-      summary: Error
+      summary: Error (Dung user 2 de test)
       operationId: get-users-me-friends
       responses:
         '200':
@@ -136,6 +214,55 @@ paths:
       tags:
         - User
       parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
+  '/users/{id}/friends':
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SimpleUser'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          in: path
+          name: id
+          example: 11
         - schema:
             type: integer
           in: query
@@ -886,8 +1013,19 @@ paths:
           in: query
           name: pageSize
           example: 10
-  '/users/{id}/friends':
-    get:
+  '/users/me/accept-friend/{userRequestId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userRequestId
+        in: path
+        required: true
+        description: Id của người gửi yêu câu
+    post:
+      summary: 'Chấp nhận lời mời kết bạn '
+      tags:
+        - User
+        - Friend
       responses:
         '200':
           description: OK
@@ -895,150 +1033,8 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/PaginationResponse'
-                  - type: object
-                    properties:
-                      Data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/SimpleUser'
-            application/xml:
-              schema:
-                type: object
-                properties: {}
-          headers: {}
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-      security:
-        - bearerAuth: []
-      tags:
-        - User
-      parameters:
-        - schema:
-            type: integer
-          required: true
-          in: path
-          name: id
-          example: 11
-        - schema:
-            type: integer
-          in: query
-          name: page
-          description: Page Index
-          example: 1
-        - schema:
-            type: integer
-          in: query
-          name: pageSize
-          example: 10
-  '/users/me/add-friend/{id}':
-    post:
-      summary: Local
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-            application/xml:
-              schema:
-                type: object
-                properties: {}
-          headers: {}
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-      security:
-        - bearerAuth: []
-      tags:
-        - User
-      parameters:
-        - schema:
-            type: integer
-          in: path
-          name: id
-          required: true
-          description: User to request
-          example: 1
-  '/users/{id}/tours':
-    get:
-      tags:
-        - User
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/PaginationResponse'
-                  - type: object
-                    properties:
-                      Data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/SimpleTour'
-      security:
-        - bearerAuth: []
-      parameters:
-        - schema:
-            type: integer
-          required: true
-          in: path
-          name: id
-          example: 11
-        - schema:
-            type: integer
-          in: query
-          name: page
-          description: Page Index
-          example: 1
-        - schema:
-            type: integer
-          in: query
-          name: pageSize
-          example: 10
-  /image:
-    post:
-      servers:
-        - url: 'https://api.imgur.com/3/'
-      summary: Upload image
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                image:
-                  type: string
-                  format: binary
-                album:
-                  type: string
-                  example: "dPkd7RpwCPaPMB9"
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  status:
-                    type: integer
-                    example: 200
-      security:
-        - Authorization: []
+                  - $ref: '#/components/schemas/ErrorResponse'
+      operationId: post-users-accept-friend-userRequestId
 components:
   schemas:
     Pagination:
@@ -1200,6 +1196,20 @@ components:
                 type: integer
               Token:
                 type: string
+      required:
+        - ErrorCode
+        - Message
+        - Data
+    PaginationResponse:
+      title: PaginationResponse
+      type: object
+      properties:
+        ErrorCode:
+          type: integer
+        Message:
+          type: string
+        Pagination:
+          $ref: '#/components/schemas/Pagination'
       required:
         - ErrorCode
         - Message
@@ -1474,6 +1484,9 @@ components:
       title: UserToPut
       type: object
       properties:
+        Name:
+          type: string
+          example: Name
         password:
           type: string
           example: new-password
@@ -1505,14 +1518,14 @@ components:
         birthday:
           type: string
           format: date-time
-        Name:
-          type: string
-          example: Name
     UserToPost:
       title: UserToPost
       type: object
       description: ''
       properties:
+        Name:
+          type: string
+          example: Name
         Email:
           type: string
           format: email
@@ -1556,9 +1569,6 @@ components:
             - creator
             - user
           example: user
-        Name:
-          type: string
-          example: Name
       required:
         - Email
         - Password
@@ -1596,29 +1606,10 @@ components:
       required:
         - Name
         - Images
-    PaginationResponse:
-      title: PaginationResponse
-      type: object
-      properties:
-        ErrorCode:
-          type: integer
-        Message:
-          type: string
-        Pagination:
-          $ref: '#/components/schemas/Pagination'
-      required:
-        - ErrorCode
-        - Message
-        - Data
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    Authorization:
-      name: Authorization
-      type: apiKey
-      in: header
-      description: Client-ID eee6fe9fcde03e2
 security:
   - bearerAuth: []
