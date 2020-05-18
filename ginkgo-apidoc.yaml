@@ -1022,7 +1022,7 @@ paths:
                   format: binary
                 album:
                   type: string
-                  example: "55zwMsj"
+                  example: "dPkd7RpwCPaPMB9"
       responses:
         '200':
           description: OK
