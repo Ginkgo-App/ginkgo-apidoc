@@ -1026,7 +1026,7 @@ paths:
           in: query
           name: pageSize
           example: 10
-  '/users/accept-friend/{userRequestId}':
+  '/users/me/accept-friend/{userRequestId}':
     parameters:
       - schema:
           type: integer
@@ -1048,7 +1048,7 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/ErrorResponse'
       operationId: post-users-accept-friend-userRequestId
-  '/me/friends/{friendId}':
+  '/users/me/friends/{friendId}':
     parameters:
       - schema:
           type: integer
