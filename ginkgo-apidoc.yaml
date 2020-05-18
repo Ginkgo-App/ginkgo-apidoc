@@ -182,7 +182,7 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: Done
+      summary: Error
       operationId: get-users-me-friends
       responses:
         '200':
