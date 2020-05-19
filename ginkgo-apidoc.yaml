@@ -59,15 +59,8 @@ paths:
                   status:
                     type: integer
                     example: 200
-      parameters:
-        - schema:
-            type: string
-            example: Client-ID eee6fe9fcde03e2
-            default: Client-ID eee6fe9fcde03e2
-          in: header
-          name: Authorization
-          required: true
-      security: []
+      security: 
+      - Authorization: [Client-ID eee6fe9fcde03e2]
       tags:
         - Helper
   /users/authenticate:
@@ -1678,5 +1671,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    Authorization:
+      name: Authorization
+      type: apiKey
+      in: header
 security:
   - bearerAuth: []
