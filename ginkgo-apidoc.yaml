@@ -184,13 +184,16 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: Bổ sung thêm type để get đã là bạn bè và những người đang gửi lời mời kết bạn 
-      description: "`accepted` là những người đã trở thành bạn bè .`requesting` là những người mà bạn đang gửi yêu cầu. `waiting` là những người đã gửi lời mời kết bạn cho bạn và chưa được bạn accept."
+      summary: Bổ sung thêm type để get đã là bạn bè và những người đang gửi lời mời kết bạn
+      description: '`accepted` là những người đã trở thành bạn bè .`requesting` là những người mà bạn đang gửi yêu cầu. `waiting` là những người đã gửi lời mời kết bạn cho bạn và chưa được bạn accept.'
       operationId: get-users-me-friends
       parameters:
         - schema:
             type: string
-            enum: [accepted, requesting, waiting]
+            enum:
+              - accepted
+              - requesting
+              - waiting
           in: query
           name: type
           description: Page Index
@@ -286,6 +289,7 @@ paths:
           in: query
           name: pageSize
           example: 10
+      description: Chỉ lấy danh sách nhưng bạn bè đã accept
   /users/social-provider:
     post:
       summary: Done
@@ -1076,6 +1080,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: delete-me-friends-friendId
+  '/users/me/friends/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: Done - Thêm bạn bè
+      tags:
+        - User
+        - Friend
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: post-users-me-friends-id
+      security:
+        - bearerAuth: []
 components:
   schemas:
     Pagination:
