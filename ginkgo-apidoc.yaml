@@ -184,8 +184,28 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: Error (Dung user 2 de test)
+      summary: Bổ sung thêm type để get đã là bạn bè và những người đang gửi lời mời kết bạn 
+      description: "`accepted` là những người đã trở thành bạn bè .`requesting` là những người mà bạn đang gửi yêu cầu. `waiting` là những người đã gửi lời mời kết bạn cho bạn và chưa được bạn accept."
       operationId: get-users-me-friends
+      parameters:
+        - schema:
+            type: string
+            enum: [accepted, requesting, waiting]
+          in: query
+          name: type
+          description: Page Index
+          example: accepted
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Page Index
+          example: 1
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+          example: 10
       responses:
         '200':
           description: OK
@@ -216,18 +236,6 @@ paths:
       tags:
         - User
         - Friend
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: page
-          description: Page Index
-          example: 1
-        - schema:
-            type: integer
-          in: query
-          name: pageSize
-          example: 10
   '/users/{id}/friends':
     get:
       responses:
