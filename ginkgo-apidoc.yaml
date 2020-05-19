@@ -1673,6 +1673,7 @@ components:
       bearerFormat: JWT
     Authorization:
       name: Authorization
+      description: Client-ID eee6fe9fcde03e2
       type: apiKey
       in: header
 security:
