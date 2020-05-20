@@ -44,7 +44,7 @@ paths:
                   format: binary
                 album:
                   type: string
-                  example: jVi5Ube
+                  example: dPkd7RpwCPaPMB9
       responses:
         '200':
           description: OK
