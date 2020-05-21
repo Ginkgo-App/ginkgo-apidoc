@@ -383,6 +383,30 @@ paths:
         - bearerAuth: []
       tags:
         - User
+    put:
+      summary: ''
+      operationId: put-users-me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserToPut'
+      tags:
+        - User
   /users/register:
     post:
       summary: Done
