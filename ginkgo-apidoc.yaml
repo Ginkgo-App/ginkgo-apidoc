@@ -1181,6 +1181,59 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PlaceToPost'
+  '/admin/places/{id}':
+    get:
+      summary: Get place by id
+      tags:
+        - Admin
+        - Place
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Place'
+              examples: {}
+      parameters: []
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-admin-places-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Place'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaceToPost'
+      tags:
+        - Admin
+        - Place
 components:
   schemas:
     Pagination:
