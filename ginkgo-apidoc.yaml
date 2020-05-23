@@ -882,6 +882,7 @@ paths:
         - TourInfo
   '/admin/tour-infos/{id}':
     get:
+      summary: Error 500
       tags:
         - TourInfo
         - Admin
