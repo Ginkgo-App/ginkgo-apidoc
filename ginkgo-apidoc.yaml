@@ -1820,7 +1820,7 @@ components:
   securitySchemes:
     bearerAuth:
       type: http
-      description: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJoaWVubGgxMjk4QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwibmJmIjoxNTkwMjI3NDkzLCJleHAiOjE1OTA4MzIyOTMsImlhdCI6MTU5MDIyNzQ5M30.yySK2GzEST5tW83Y0tYCXe8qaHF4do7vnj_JbkuWD9k
+      description: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJoaWVubGgxMjk4QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwibmJmIjoxNTkwMjI4MDY3LCJleHAiOjE1OTA4MzI4NjcsImlhdCI6MTU5MDIyODA2N30.3oYgX1sAfjBuvjW7Lxrdsxln8xSroPkEUJlEcGNskUY
       scheme: bearer
       bearerFormat: JWT
     Authorization:
