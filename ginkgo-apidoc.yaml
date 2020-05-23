@@ -934,7 +934,7 @@ paths:
         - TourInfo
         - Admin
     delete:
-      summary: ''
+      summary: 'Error'
       operationId: delete-admin-tour-infos-id
       responses:
         '200':
