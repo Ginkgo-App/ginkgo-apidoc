@@ -1156,7 +1156,7 @@ paths:
           in: query
           name: pageSize
     post:
-      summary: Create place
+      summary: Error - Create place
       tags:
         - Admin
         - Place
