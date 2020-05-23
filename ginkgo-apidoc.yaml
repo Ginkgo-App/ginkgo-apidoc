@@ -178,7 +178,7 @@ paths:
           example: 10
   /users/me/friends:
     get:
-      summary: Bổ sung thêm type để get đã là bạn bè và những người đang gửi lời mời kết bạn
+      summary: Sai du lieu tra ve
       description: '`accepted` là những người đã trở thành bạn bè .`requesting` là những người mà bạn đang gửi yêu cầu. `waiting` là những người đã gửi lời mời kết bạn cho bạn và chưa được bạn accept.'
       operationId: get-users-me-friends
       parameters:
