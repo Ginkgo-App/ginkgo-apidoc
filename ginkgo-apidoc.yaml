@@ -867,7 +867,7 @@ paths:
           in: query
           name: pageSize
     post:
-      summary: ''
+      summary: 'Error'
       operationId: post-admin-tour-infos
       responses:
         '200':
