@@ -1210,7 +1210,7 @@ paths:
         in: path
         required: true
     put:
-      summary: ''
+      summary: 'Error'
       operationId: put-admin-places-id
       responses:
         '200':
