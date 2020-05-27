@@ -867,7 +867,7 @@ paths:
           in: query
           name: pageSize
     post:
-      summary: 'Error'
+      summary: Error
       operationId: post-admin-tour-infos
       responses:
         '200':
@@ -909,7 +909,7 @@ paths:
         in: path
         required: true
     put:
-      summary: 'error'
+      summary: error
       operationId: put-admin-tour-infos-id
       responses:
         '200':
@@ -934,7 +934,7 @@ paths:
         - TourInfo
         - Admin
     delete:
-      summary: 'Error'
+      summary: Error
       operationId: delete-admin-tour-infos-id
       responses:
         '200':
@@ -1211,7 +1211,7 @@ paths:
         in: path
         required: true
     put:
-      summary: 'Error'
+      summary: Error
       operationId: put-admin-places-id
       responses:
         '200':
@@ -1235,6 +1235,20 @@ paths:
       tags:
         - Admin
         - Place
+    delete:
+      summary: ''
+      operationId: delete-admin-places-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - Place
+        - Admin
 components:
   schemas:
     Pagination:
