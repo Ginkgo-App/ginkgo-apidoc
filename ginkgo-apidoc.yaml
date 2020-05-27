@@ -646,7 +646,6 @@ paths:
       summary: ''
       tags:
         - Tour
-        - TourInfo
       responses:
         '200':
           description: OK
@@ -1249,6 +1248,127 @@ paths:
       tags:
         - Place
         - Admin
+  '/admin/tour-infos/{id}/tours':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Tour by Id
+      tags:
+        - Admin
+        - Tour
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tour'
+      operationId: get-admin-tour-infos-tourId-tours
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+    post:
+      summary: Create tour of tour info
+      tags:
+        - Admin
+        - Tour
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tour'
+      operationId: post-admin-tour-infos-tourId-tours
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourToPost'
+  '/admin/tour-infos/{id}/tours/{tourId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: tourId
+        in: path
+        required: true
+    get:
+      summary: Get by id
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tour'
+      operationId: get-admin-tour-infos-id-tours-tourId
+    put:
+      summary: Edit tour
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tour'
+      operationId: put-admin-tour-infos-id-tours-tourId
+    delete:
+      summary: Delete tour
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: delete-admin-tour-infos-id-tours-tourId
 components:
   schemas:
     Pagination:
@@ -1461,6 +1581,65 @@ components:
         - Id
         - StartDay
         - EndDay
+    TourToPost:
+      title: Tour
+      type: object
+      description: ''
+      properties:
+        Name:
+          type: string
+        StartDay:
+          type: string
+        EndDay:
+          type: string
+        MemberIds:
+          type: array
+          items:
+            type: integer
+        MaxMember:
+          type: integer
+        Timelines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimelineToPost'
+        Services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDetail'
+        TourInfoId:
+          type: integer
+      required:
+        - StartDay
+        - EndDay
+    TourToPut:
+      type: object
+      description: ''
+      properties:
+        Name:
+          type: string
+        StartDay:
+          type: string
+        EndDay:
+          type: string
+        MemberIds:
+          type: array
+          items:
+            type: integer
+        MaxMember:
+          type: integer
+        Timelines:
+          type: array
+          items:
+            $ref: '#/components/schemas/Timeline'
+        Services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDetail'
+        TourInfoId:
+          type: integer
+      required:
+        - StartDay
+        - EndDay
     SimpleTour:
       title: SimpleTour
       type: object
@@ -1591,11 +1770,11 @@ components:
       properties:
         Id:
           type: integer
-        Places:
+        TimelineDetails:
           type: array
           description: Danh sách địa điểm
           items:
-            $ref: '#/components/schemas/Place'
+            $ref: '#/components/schemas/TimelineDetail'
         Day:
           type: string
           format: date-time
@@ -1604,8 +1783,78 @@ components:
           type: string
       required:
         - Id
-        - Places
         - Day
+    TimelineToPost:
+      title: TimelineToPost
+      type: object
+      properties:
+        Id:
+          type: integer
+        TimelineDetails:
+          type: array
+          description: Danh sách địa điểm
+          items:
+            $ref: '#/components/schemas/TimelineDetailToPost'
+        Day:
+          type: string
+          format: date-time
+          description: Ngày của timeline
+        Description:
+          type: string
+      required:
+        - Id
+        - TimelineDetails
+        - Day
+    TimelineToPut:
+      title: TimelineToPost
+      type: object
+      properties:
+        Id:
+          type: integer
+        TimelineDetails:
+          type: array
+          description: Danh sách địa điểm
+          items:
+            $ref: '#/components/schemas/TimelineDetailToPost'
+        Day:
+          type: string
+          format: date-time
+          description: Ngày của timeline
+        Description:
+          type: string
+      required:
+        - Id
+        - TimelineDetails
+        - Day
+    TimelineDetail:
+      title: TimelineDetail
+      type: object
+      properties:
+        Id:
+          type: integer
+        Place:
+          $ref: '#/components/schemas/Place'
+        Time:
+          type: string
+        Detail:
+          type: string
+      required:
+        - Id
+    TimelineDetailToPost:
+      title: TimelineDetailToPost
+      type: object
+      properties:
+        PlaceId:
+          type: integer
+          description: địa điểm
+        Time:
+          type: string
+        Detail:
+          type: string
+      required:
+        - Time
+        - PlaceId
+        - Detail
     Service:
       title: Service
       type: object
