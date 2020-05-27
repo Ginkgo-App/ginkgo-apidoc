@@ -1577,6 +1577,10 @@ components:
             $ref: '#/components/schemas/ServiceDetail'
         TourInfo:
           $ref: '#/components/schemas/TourInfo'
+        StartPlace:
+          $ref: '#/components/schemas/Place'
+        DestinatePlace:
+          $ref: '#/components/schemas/Place'
       required:
         - Id
         - StartDay
@@ -1658,10 +1662,10 @@ components:
           type: integer
         Host:
           $ref: '#/components/schemas/SimpleUser'
-        Services:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceDetail'
+        Price:
+          type: number
+        Friend:
+          $ref: '#/components/schemas/SimpleUser'
       required:
         - Id
         - Name
