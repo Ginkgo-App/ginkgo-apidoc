@@ -1401,15 +1401,16 @@ components:
         Job:
           type: string
           example: Coder
-        IsFriend:
-          type: integer
+        FriendType:
+          type: string
           enum:
-            - 0
-            - 1
-            - 2
-            - 3
-          example: 0
-          description: '0 là người dưng, 1 là bạn đang gửi yêu cầu kết bạn, 2 là đối phương đang gửi yêu cầu kết bạn, 3 là đã thành bạn bè,'
+            - me
+            - none
+            - accepted
+            - requested
+            - waiting
+          example: none
+          description: '`none` là người dưng, `accepted` là bạn đang gửi yêu cầu kết bạn, `requested` là đối phương đang gửi yêu cầu kết bạn, `waiting` là đã thành bạn bè, `me` cho trường hợp chính bản thân'
       required:
         - Id
         - Name
