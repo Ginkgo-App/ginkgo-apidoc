@@ -87,17 +87,17 @@ paths:
             schema:
               type: object
               properties:
+                Email:
+                  type: string
+                  default: test@gingko.com
+                  format: email
+                  example: test@gingko.com
                 Password:
                   type: string
                   default: test123
                   format: password
                   minLength: 4
                   example: test
-                Email:
-                  type: string
-                  default: test@gingko.com
-                  format: email
-                  example: test@gingko.com
               required:
                 - Password
                 - Email
