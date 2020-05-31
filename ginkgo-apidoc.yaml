@@ -89,9 +89,9 @@ paths:
               properties:
                 Email:
                   type: string
-                  default: test@gingko.com
+                  default: test@ginkgo.com
                   format: email
-                  example: test@gingko.com
+                  example: test@ginkgo.com
                 Password:
                   type: string
                   default: test123
