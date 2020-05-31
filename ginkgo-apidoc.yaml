@@ -97,7 +97,7 @@ paths:
                   type: string
                   default: test@gingko.com
                   format: email
-                  example: test@gmail.com
+                  example: test@gingko.com
               required:
                 - Password
                 - Email
