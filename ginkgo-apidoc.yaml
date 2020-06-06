@@ -1667,6 +1667,10 @@ components:
         EndDay:
           type: string
           format: date-time
+        TotalDay:
+          type: integer
+        TotalNight:
+          type: integer
         TotalMember:
           type: integer
         Host:
