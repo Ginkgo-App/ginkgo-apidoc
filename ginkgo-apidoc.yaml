@@ -1587,7 +1587,7 @@ components:
         - StartDay
         - EndDay
     TourToPost:
-      title: Tour
+      title: TourToPost
       type: object
       description: ''
       properties:
