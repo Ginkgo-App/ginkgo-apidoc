@@ -1618,7 +1618,7 @@ components:
         Services:
           type: array
           items:
-            $ref: '#/components/schemas/ServiceDetail'
+            type: string
         TourInfoId:
           type: integer
       required:
