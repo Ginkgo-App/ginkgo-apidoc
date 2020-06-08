@@ -774,6 +774,20 @@ paths:
             type: integer
           in: query
           name: pageSize
+        - schema:
+            type: string
+            enum:
+              - city
+              - other
+            example: city
+          in: query
+          name: type
+          description: Type có 2 loại là city và other.
+        - schema:
+            type: string
+          in: query
+          name: keyword
+          description: Keyword dùng để search
   '/tour-infos/{id}':
     get:
       summary: ''
