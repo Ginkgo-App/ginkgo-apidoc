@@ -1605,10 +1605,6 @@ components:
           type: integer
         TotalNight:
           type: integer
-        MemberIds:
-          type: array
-          items:
-            type: integer
         MaxMember:
           type: integer
         Timelines:
@@ -1621,6 +1617,8 @@ components:
             type: string
         TourInfoId:
           type: integer
+        Price:
+          type: number
       required:
         - StartDay
         - EndDay
@@ -1805,8 +1803,6 @@ components:
       title: TimelineToPost
       type: object
       properties:
-        Id:
-          type: integer
         TimelineDetails:
           type: array
           description: Danh sách địa điểm
@@ -1819,7 +1815,6 @@ components:
         Description:
           type: string
       required:
-        - Id
         - TimelineDetails
         - Day
     TimelineToPut:
