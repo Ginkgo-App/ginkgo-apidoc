@@ -782,7 +782,7 @@ paths:
             example: city
           in: query
           name: type
-          description: Type có 2 loại là city và other.
+          description: Type có 2 loại là city và other, nếu type null, lấy cả 2 loại.
         - schema:
             type: string
           in: query
