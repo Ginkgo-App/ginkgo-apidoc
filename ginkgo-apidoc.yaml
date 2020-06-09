@@ -1756,6 +1756,10 @@ components:
             type: string
         Description:
           type: string
+        TourCount:
+          type: integer
+          example: 100
+          description: Tong so tour trong place
     PlaceToPost:
       title: Place
       type: object
