@@ -1670,7 +1670,7 @@ components:
           example: 1
         Price:
           type: number
-          example: 10000
+          example: 10000.0
       required:
         - StartDay
         - EndDay
