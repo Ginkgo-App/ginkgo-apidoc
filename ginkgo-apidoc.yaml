@@ -675,6 +675,31 @@ paths:
           in: query
           name: pageSize
       security: []
+    post:
+      summary: Create tour of tour info
+      tags:
+        - Tour
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tour'
+      operationId: post-tour-infos-tourId-tours
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourToPost'
   /tour-infos:
     get:
       summary: ''
@@ -1615,11 +1640,11 @@ components:
         StartDay:
           type: string
           format: date-time
-          example: "2020-06-12T00:00:00.000Z"
+          example: '2020-06-12T00:00:00.000Z'
         EndDay:
           type: string
           format: date-time
-          example: "2020-06-14T00:00:00.000Z"
+          example: '2020-06-14T00:00:00.000Z'
         TotalDay:
           type: integer
           example: 2
@@ -1637,7 +1662,9 @@ components:
           type: array
           items:
             type: string
-          example: [Service1, Service2]
+          example:
+            - Service1
+            - Service2
         TourInfoId:
           type: integer
           example: 1
@@ -1840,7 +1867,7 @@ components:
         Day:
           type: string
           format: date-time
-          example: "2020-06-13T00:00:00.000Z"
+          example: '2020-06-13T00:00:00.000Z'
         Description:
           type: string
       required:
@@ -1894,7 +1921,7 @@ components:
           example: 10h sang
         Detail:
           type: string
-          example: An sang tai {{place}}
+          example: 'An sang tai {{place}}'
       required:
         - Time
         - PlaceId
