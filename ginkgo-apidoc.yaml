@@ -1732,8 +1732,10 @@ components:
           $ref: '#/components/schemas/SimpleUser'
         Price:
           type: number
-        Friend:
-          $ref: '#/components/schemas/SimpleUser'
+        Friends:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleUser'
       required:
         - Id
         - Name
