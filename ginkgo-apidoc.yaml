@@ -1617,7 +1617,7 @@ components:
         Services:
           type: array
           items:
-            $ref: '#/components/schemas/ServiceDetail'
+            type: string
         TourInfo:
           $ref: '#/components/schemas/TourInfo'
         StartPlace:
@@ -1669,7 +1669,7 @@ components:
           example: 1
         Price:
           type: number
-          example: 10000.0
+          example: 10000
       required:
         - StartDay
         - EndDay
@@ -1696,7 +1696,7 @@ components:
         Services:
           type: array
           items:
-            $ref: '#/components/schemas/ServiceDetail'
+            type: string
         TourInfoId:
           type: integer
       required:
@@ -2131,7 +2131,8 @@ components:
           type: array
           items:
             type: string
-            example: ["https://i.imgur.com/36tg9Vo.jpg"]
+            example:
+              - 'https://i.imgur.com/36tg9Vo.jpg'
         Name:
           type: string
           example: Test from swagger
