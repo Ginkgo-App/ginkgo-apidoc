@@ -1615,11 +1615,11 @@ components:
         StartDay:
           type: string
           format: date-time
-          example: 2020-06-12T00:00:00.000Z
+          example: "2020-06-12T00:00:00.000Z"
         EndDay:
           type: string
           format: date-time
-          example: 2020-06-14T00:00:00.000Z
+          example: "2020-06-14T00:00:00.000Z"
         TotalDay:
           type: integer
           example: 2
