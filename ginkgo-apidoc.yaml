@@ -1611,16 +1611,24 @@ components:
       properties:
         Name:
           type: string
+          example: Tour name
         StartDay:
           type: string
+          format: date-time
+          example: 2020-06-12T00:00:00.000Z
         EndDay:
           type: string
+          format: date-time
+          example: 2020-06-14T00:00:00.000Z
         TotalDay:
           type: integer
+          example: 2
         TotalNight:
           type: integer
+          example: 2
         MaxMember:
           type: integer
+          example: 5
         Timelines:
           type: array
           items:
@@ -1629,10 +1637,13 @@ components:
           type: array
           items:
             type: string
+          example: [Service1, Service2]
         TourInfoId:
           type: integer
+          example: 1
         Price:
           type: number
+          example: 10000
       required:
         - StartDay
         - EndDay
@@ -1829,7 +1840,7 @@ components:
         Day:
           type: string
           format: date-time
-          description: Ngày của timeline
+          example: "2020-06-13T00:00:00.000Z"
         Description:
           type: string
       required:
@@ -1877,10 +1888,13 @@ components:
         PlaceId:
           type: integer
           description: địa điểm
+          example: 1
         Time:
           type: string
+          example: 10h sang
         Detail:
           type: string
+          example: An sang tai {{place}}
       required:
         - Time
         - PlaceId
