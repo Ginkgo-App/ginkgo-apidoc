@@ -2124,15 +2124,18 @@ components:
       properties:
         DestinatePlaceId:
           type: integer
+          example: 1
         StartPlaceId:
           type: integer
+          example: 2
         Images:
           type: array
           items:
             type: string
+            example: ["https://i.imgur.com/36tg9Vo.jpg"]
         Name:
           type: string
-          example: Tour name
+          example: Test from swagger
       required:
         - Name
         - Images
