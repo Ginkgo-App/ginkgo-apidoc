@@ -674,7 +674,6 @@ paths:
             type: integer
           in: query
           name: pageSize
-      security: []
     post:
       summary: Create tour of tour info
       tags:
