@@ -106,7 +106,6 @@ paths:
         - User
   /users/me/tours:
     get:
-      summary: 'Done, no data'
       tags:
         - User
       responses:
@@ -138,6 +137,15 @@ paths:
           in: query
           name: pageSize
           example: 10
+        - schema:
+            type: string
+            enum:
+              - owner
+              - member
+              - all
+          in: query
+          name: type
+          example: owner
   '/users/{id}/tours':
     get:
       tags:
