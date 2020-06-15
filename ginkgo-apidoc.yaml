@@ -1693,6 +1693,8 @@ components:
           type: integer
         MaxMember:
           type: integer
+        Price:
+          type: number
         Timelines:
           type: array
           items:
