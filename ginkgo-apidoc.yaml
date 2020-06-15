@@ -1465,6 +1465,32 @@ paths:
             type: string
           in: query
           name: keyword
+  '/tours/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get thông tin chi tiết của tour
+      tags:
+        - Tour
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tour'
+      operationId: get-tours-id
 components:
   schemas:
     Pagination:
@@ -1665,10 +1691,6 @@ components:
           type: integer
         TotalNight:
           type: integer
-        Members:
-          type: array
-          items:
-            $ref: '#/components/schemas/SimpleUser'
         MaxMember:
           type: integer
         Timelines:
@@ -1681,10 +1703,14 @@ components:
             type: string
         TourInfo:
           $ref: '#/components/schemas/TourInfo'
-        StartPlace:
-          $ref: '#/components/schemas/Place'
-        DestinatePlace:
-          $ref: '#/components/schemas/Place'
+        CreateBy:
+          $ref: '#/components/schemas/SimpleUser'
+        JoinAt:
+          type: string
+          format: date-time
+        AcceptedAt:
+          type: string
+          format: date-time
       required:
         - Id
         - StartDay
