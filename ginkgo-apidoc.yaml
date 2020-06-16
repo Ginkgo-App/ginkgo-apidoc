@@ -1465,6 +1465,14 @@ paths:
             type: string
           in: query
           name: keyword
+        - schema:
+            type: string
+            enum:
+              - accepted
+              - requesting
+          description: Null là get all
+          in: query
+          name: type
   '/tours/{id}':
     parameters:
       - schema:
