@@ -1553,6 +1553,33 @@ paths:
             example: asc
           in: query
           name: orderBy
+  /posts:
+    post:
+      summary: 'Tạo bài viết '
+      tags:
+        - Post
+        - Tour
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Post'
+      operationId: post-posts
+      description: 'Nếu tourId tồn tại thì Rating phải > 0 => Đánh giá tour.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostToPost'
 components:
   schemas:
     Pagination:
@@ -1922,12 +1949,14 @@ components:
           format: date-time
         Rating:
           type: number
+        Tour:
+          $ref: '#/components/schemas/SimpleTour'
       required:
         - Id
         - Author
         - Content
-    PostComment:
-      title: PostComment
+    Comment:
+      title: Comment
       type: object
       properties:
         Id:
@@ -2313,6 +2342,25 @@ components:
       required:
         - Name
         - Images
+    PostToPost:
+      title: PostToPost
+      type: object
+      description: 'Model dùng để tạo và sửa bài viết. Nếu tourId tồn tại thì Rating phải > 0 => Đánh giá tour.'
+      properties:
+        Content:
+          type: string
+          description: Nội dung bài viết
+        Images:
+          type: array
+          description: Danh sách hình ảnh nếu có
+          items:
+            type: string
+        Rating:
+          type: integer
+        TourId:
+          type: integer
+      required:
+        - Content
   securitySchemes:
     bearerAuth:
       type: http
