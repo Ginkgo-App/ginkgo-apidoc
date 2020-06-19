@@ -1571,6 +1571,7 @@ paths:
                     properties:
                       Data:
                         type: array
+                        description: Return new post id.
                         items:
                           type: integer
       operationId: post-posts
