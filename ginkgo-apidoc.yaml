@@ -1581,6 +1581,69 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PostToPost'
+  '/posts/{id}/comments':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Lấy danh sách comment
+      tags:
+        - Post
+        - Tour
+        - Comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Comment'
+      operationId: get-posts-id-comments
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: pageSize
+    post:
+      summary: 'Đăng bình luận '
+      tags:
+        - Post
+        - Tour
+        - Comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      Data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Comment'
+      operationId: post-posts-id-comments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentToPost'
 components:
   schemas:
     Pagination:
@@ -1967,6 +2030,9 @@ components:
         Content:
           type: string
           description: Nội dung bình luận
+        CreateAt:
+          type: string
+          format: date-time
     Place:
       title: Place
       type: object
@@ -2362,6 +2428,13 @@ components:
           type: integer
       required:
         - Content
+    CommentToPost:
+      title: CommentToPost
+      type: object
+      properties:
+        Content:
+          type: string
+          description: Nội dung bình luận
   securitySchemes:
     bearerAuth:
       type: http
