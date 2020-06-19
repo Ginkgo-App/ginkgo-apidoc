@@ -1572,7 +1572,7 @@ paths:
                       Data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Post'
+                          type: integer
       operationId: post-posts
       description: 'Nếu tourId tồn tại thì Rating phải > 0 => Đánh giá tour.'
       requestBody:
