@@ -1644,6 +1644,44 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CommentToPost'
+  /me/tour-infos:
+    get:
+      summary: ''
+      tags:
+        - TourInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ErrorCode:
+                    type: integer
+                  Message:
+                    type: string
+                  Pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TourInfo'
+      parameters:
+        - schema:
+            type: integer
+            default: 1
+          in: query
+          name: page
+        - schema:
+            type: integer
+            default: '10'
+          in: query
+          name: pageSize
+      description: Get danh sách tour info của current user. (Lấy theo thứ tự mới nhất đến cũ nhất)
+      security:
+        - bearerAuth: []
+      operationId: get-me-tourInfos
 components:
   schemas:
     Pagination:
